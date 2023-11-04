@@ -1,0 +1,6 @@
+.prettierc
+.env
+./dist
+./node_modules
+./git
+

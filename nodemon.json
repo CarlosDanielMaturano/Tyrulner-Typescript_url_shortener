@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "ts-node-dev --files --transpile-only --respawn --inspect=4321 --project tsconfig.json src/server.ts"
+}
