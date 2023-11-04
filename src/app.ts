@@ -1,15 +1,16 @@
 import express from 'express';
+import DB from './database/config';
+import routes from './routes';
 
 const app = express();
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  const message: string = 'Hello world';
-  const statusCode: number = 200;
-  res.status(statusCode).json({
-    message,
-    statusCode,
-  });
-});
+DB.on(
+  'error',
+  console.log.bind(console, 'An error occurred during the connection'),
+);
+DB.once('open', () => console.log('Database connection successfuly'));
+
+routes(app);
 
 export default app;
