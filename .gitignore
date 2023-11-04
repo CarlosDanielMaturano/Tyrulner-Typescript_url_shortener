@@ -1,6 +1,6 @@
 .prettierc
 .env
-./dist
-./node_modules
-./git
+dist/
+node_modules/
+git/
 
