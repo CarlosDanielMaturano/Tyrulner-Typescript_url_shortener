@@ -1,6 +1,7 @@
 import express from 'express';
 import DB from './database/config';
-import routes from './routes';
+import './controllers';
+import AppRouter from './Router';
 
 const app = express();
 app.use(express.json());
@@ -11,6 +12,6 @@ DB.on(
 );
 DB.once('open', () => console.log('Database connection successfuly'));
 
-routes(app);
+app.use(AppRouter);
 
 export default app;
