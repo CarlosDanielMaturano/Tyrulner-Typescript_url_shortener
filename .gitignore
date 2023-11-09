@@ -1,5 +1,6 @@
-.prettierc
+.prettierrc
 .env
+.TODO.*
 dist/
 node_modules/
 git/

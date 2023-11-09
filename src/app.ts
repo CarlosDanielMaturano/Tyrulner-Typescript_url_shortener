@@ -2,6 +2,7 @@ import express from 'express';
 import DB from './database/config';
 import './controllers';
 import AppRouter from './Router';
+import errorHanlder from './middlewares/ErroHandler';
 
 const app = express();
 app.use(express.json());
@@ -13,5 +14,6 @@ DB.on(
 DB.once('open', () => console.log('Database connection successfuly'));
 
 app.use(AppRouter);
+app.use(errorHanlder);
 
 export default app;

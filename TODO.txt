@@ -1,0 +1,8 @@
+Como gerar uma url mais curta??
+
+[] Gerar um id novo para a url, quando o usuário digitar o id, será direcionada para
+  a URL com id referente.
+
+[] Como deverá ser o id ?
+  () seguir um padrão númerico 
+  () seguir isso aqui ó -> 'kl12f02d25r5'

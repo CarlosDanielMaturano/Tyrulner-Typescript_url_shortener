@@ -1,6 +1,6 @@
 export interface RouteInterface {
   path: string;
-  method: 'get' | 'post' | 'put' | 'delete';
+  method: 'get' | 'post';
   target: any;
   middlewares?: Array<any>;
 }

@@ -1,7 +1,7 @@
 import { RouteInterface } from '../../interfaces/RouteInterface';
 import 'reflect-metadata';
 
-function Get(path: string = '') {
+function Post(path: string = '') {
   return (target: any, propertyKey: string): void => {
     if (!Reflect.getMetadata('routes', target.constructor)) {
       Reflect.defineMetadata('routes', [], target.constructor);
@@ -11,11 +11,11 @@ function Get(path: string = '') {
       target.constructor,
     );
     routes.push({
-      method: 'get',
+      method: 'post',
       path: path,
       target: propertyKey,
     });
   };
 }
 
-export default Get;
+export default Post;

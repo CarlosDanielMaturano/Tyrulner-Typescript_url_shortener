@@ -19,10 +19,12 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@types/shortid": "^0.0.32",
     "express": "^4.18.2",
     "mongoose": "^8.0.0",
     "reflect-metadata": "^0.1.13",
     "remove": "^0.1.5",
+    "shortid": "^2.2.16",
     "typedi": "^0.10.0"
   }
 }

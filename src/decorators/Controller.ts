@@ -12,7 +12,6 @@ function Controller(prefix: string): ClassDecorator {
     }
     const routes: Array<RouteInterface> = Reflect.getMetadata('routes', target);
     const instace: any = Container.get(target);
-    console.log(instace);
     routes.forEach((route: RouteInterface) => {
       console.log(route.target);
       AppRouter[route.method](
