@@ -1,10 +1,17 @@
 import { Request, Response } from 'express';
+import DefaultError from '../errors/DefaultError';
+import { NextFunction } from 'express';
 
 export const errorHandler = (
-  err: Error,
+  err: DefaultError,
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  res.status(500).json({ message: 'hello' });
+  const statusCode = <number>err.statusCode;
+  const message = <string>err.message;
+  res.status(statusCode).send({
+    message,
+    statusCode,
+  });
 };

@@ -16,5 +16,6 @@
     "emitDecoratorMetadata": true,
     "sourceMap": true,
     "lib": ["ES2021.String"]
-  }
+  },
+  "include": ["src/**/*"]
 }
