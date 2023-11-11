@@ -6,9 +6,9 @@ import { Service } from 'typedi';
 import URLModel from '../database/models/URL';
 import { generate } from 'shortid';
 import UrlInterface from '../interfaces/UrlInterface';
-import DefaultError from '../errors/DefaultError';
+import 'express-async-errors';
 
-@Controller('/url')
+@Controller('/api/url')
 @Service()
 export class UrlController {
   @Get('/hello')
@@ -31,21 +31,24 @@ export class UrlController {
       const url: UrlInterface = <UrlInterface>await URLModel.findOne({
         short: id,
       });
-      if (!url) {
-        const message = 'Could not find the url ';
-        const statusCode = 404;
-        throw new DefaultError(message, statusCode);
-      }
+      if (!url) return next(new Error('something went wrong'));
       res.redirect(url.originalUrl);
-    } catch (err: any) {
-      debugger;
+    } catch (err: unknown) {
+      console.log(err);
       next(err);
     }
   }
   @Post('/new')
-  public async shortUrl(req: Request, res: Response): Promise<void> {
+  public async shortUrl(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
       const originalUrl = <string>req.query.url;
+      if (!originalUrl) {
+        next(new Error('url not given'));
+      }
       const date = Date.now();
       const shortenUrl = generate();
       await URLModel.create({
@@ -59,8 +62,8 @@ export class UrlController {
         message: 'Sucessfuly create a new url',
         status: 200,
       });
-    } catch (e: any) {
-      throw new Error(e);
+    } catch (err: unknown) {
+      next(err);
     }
   }
 }

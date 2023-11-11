@@ -1,8 +1,12 @@
 export default class DefaultError extends Error {
-  public statusCode: number;
+  public readonly statusCode: number;
+  public readonly message: string;
   private err: any;
-  constructor(message = 'Internal server error', statusCode = 500) {
-    super();
+  constructor(
+    message: string = 'Internal server error',
+    statusCode: number = 500,
+  ) {
+    super(message);
     this.message = message;
     this.statusCode = statusCode;
   }

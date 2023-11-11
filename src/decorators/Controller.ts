@@ -13,7 +13,6 @@ function Controller(prefix: string): ClassDecorator {
     const routes: Array<RouteInterface> = Reflect.getMetadata('routes', target);
     const instace: any = Container.get(target);
     routes.forEach((route: RouteInterface) => {
-      console.log(route.target);
       AppRouter[route.method](
         `${prefix}${route.path}`,
         instace[route.target].bind(instace),

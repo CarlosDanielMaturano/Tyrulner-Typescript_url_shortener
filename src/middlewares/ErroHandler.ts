@@ -1,13 +1,10 @@
 import { Request, Response } from 'express';
-import DefaultError from '../errors/DefaultError';
 
-export default function errorHanlder(
-  err: DefaultError,
+export const errorHandler = (
+  err: Error,
   req: Request,
   res: Response,
-) {
-  console.log('req', req);
-  res
-    .status(err.statusCode)
-    .send({ message: DefaultError.getErrorMessages(err) });
-}
+  next: NextFunction,
+) => {
+  res.status(500).json({ message: 'hello' });
+};
