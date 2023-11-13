@@ -8,10 +8,7 @@ export const errorHandler = (
   res: Response,
   next: NextFunction,
 ) => {
-  const statusCode = <number>err.statusCode;
-  const message = <string>err.message;
-  res.status(statusCode).send({
-    message,
-    statusCode,
-  });
+  if (err instanceof DefaultError) {
+    return err.sendResponse(req, res);
+  }
 };

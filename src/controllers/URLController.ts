@@ -9,6 +9,8 @@ import UrlInterface from '../interfaces/UrlInterface';
 import DefaultError from '../errors/DefaultError';
 import UrlChecker from '../utils/urlChecker';
 import HttpsStatusCode from '../utils/HttpsStatusCode';
+import NotFoundError from '../errors/NotFoundError';
+import BadRequestError from '../errors/BadRequestError';
 
 @Controller('/api')
 @Service()
@@ -35,9 +37,8 @@ export class UrlController {
       });
       if (!url) {
         return next(
-          new DefaultError(
+          new NotFoundError(
             'Could not find the url with the given shorten url',
-            404,
           ),
         );
       }
@@ -55,17 +56,12 @@ export class UrlController {
     try {
       const originalUrl = <string>req.body.url;
 
-      if (!originalUrl)
-        next(new DefaultError('url not given', HttpsStatusCode.BAD_REQUEST));
+      if (!originalUrl) return next(new BadRequestError('url not given'));
 
       if (!UrlChecker.checkUrl(originalUrl)) {
-        return next(
-          new DefaultError(
-            'the providen url is not a valid one',
-            HttpsStatusCode.BAD_REQUEST,
-          ),
-        );
+        return next(new BadRequestError('the providen url is not a valid one'));
       }
+
       // Generate a new id from shortid
       const shortenUrl = generate();
       const date = Date.now();
@@ -76,11 +72,12 @@ export class UrlController {
         short: shortenUrl,
       });
 
-      res.status(HttpsStatusCode.CREATED).json({
+      const statusCode = HttpsStatusCode.CREATED;
+      res.status(statusCode).json({
         original: originalUrl,
         shorten: shortenUrl,
         message: 'Sucessfuly create a new url',
-        statusCode: HttpsStatusCode.CREATED,
+        statusCode,
       });
     } catch (err: unknown) {
       next(err);
