@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-export default class DefaultError extends Error {
+export default abstract class DefaultError extends Error {
   constructor(
     public readonly message: string = 'Internal server error',
     protected statusCode: number = 500,

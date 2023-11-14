@@ -6,17 +6,19 @@ import { Service } from 'typedi';
 import URLModel from '../database/schemas/URL';
 import { generate } from 'shortid';
 import UrlInterface from '../interfaces/UrlInterface';
-import DefaultError from '../errors/DefaultError';
 import UrlChecker from '../utils/urlChecker';
 import HttpsStatusCode from '../utils/HttpsStatusCode';
 import NotFoundError from '../errors/NotFoundError';
 import BadRequestError from '../errors/BadRequestError';
+import InternalServerError from '../errors/InternalServerError';
 
 @Controller('/api')
+// Service is required for use the typedi Container
 @Service()
 export class UrlController {
   @Get('/hello')
   public async hello(_req: Request, res: Response): Promise<void> {
+    console.log(this.hello);
     const statusCode = HttpsStatusCode.OK;
     const message = 'Hello world';
     res.status(statusCode).send({
@@ -36,10 +38,8 @@ export class UrlController {
         short,
       });
       if (!url) {
-        return next(
-          new NotFoundError(
-            'Could not find the url with the given shorten url',
-          ),
+        throw new NotFoundError(
+          'Could not find the url with the given shorten url',
         );
       }
       res.redirect(url.originalUrl);
@@ -56,14 +56,17 @@ export class UrlController {
     try {
       const originalUrl = <string>req.body.url;
 
-      if (!originalUrl) return next(new BadRequestError('url not given'));
+      if (!originalUrl) throw next(new BadRequestError('url not given'));
 
-      if (!UrlChecker.checkUrl(originalUrl)) {
-        return next(new BadRequestError('the providen url is not a valid one'));
-      }
+      if (!UrlChecker.checkUrl(originalUrl))
+        throw new BadRequestError('the providen url is not a valid one');
 
       // Generate a new id from shortid
       const shortenUrl = generate();
+
+      if (await URLModel.findOne({ short: shortenUrl })) {
+        throw new InternalServerError('The given id for the url already exits');
+      }
       const date = Date.now();
 
       await URLModel.create({
@@ -71,12 +74,12 @@ export class UrlController {
         date,
         short: shortenUrl,
       });
-
       const statusCode = HttpsStatusCode.CREATED;
+      const message = 'Sucessfuly create a new url';
       res.status(statusCode).json({
         original: originalUrl,
         shorten: shortenUrl,
-        message: 'Sucessfuly create a new url',
+        message,
         statusCode,
       });
     } catch (err: unknown) {
