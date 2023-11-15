@@ -6,3 +6,7 @@ Como gerar uma url mais curta??
 [X] Como deverá ser o id ?
   () seguir um padrão númerico 
   (X) seguir isso aqui ó -> 'kl12f02d25r5'
+
+[] Como pegar o full path para rotas especificas? 
+  () Adicionar uma propiedade de objeto referente ao nome da função?  
+  () Slakkkkk :C 

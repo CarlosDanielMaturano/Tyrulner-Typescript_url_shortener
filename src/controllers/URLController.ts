@@ -11,14 +11,16 @@ import HttpsStatusCode from '../utils/HttpsStatusCode';
 import NotFoundError from '../errors/NotFoundError';
 import BadRequestError from '../errors/BadRequestError';
 import InternalServerError from '../errors/InternalServerError';
+import formatShortUrl from '../utils/formatShortUrl';
 
-@Controller('/api')
+const API_PATH = '/api';
+@Controller(API_PATH)
 // Service is required for use the typedi Container
 @Service()
 export class UrlController {
   @Get('/hello')
   public async hello(_req: Request, res: Response): Promise<void> {
-    console.log(this.hello);
+    console.log(_req.route.path);
     const statusCode = HttpsStatusCode.OK;
     const message = 'Hello world';
     res.status(statusCode).send({
@@ -62,23 +64,29 @@ export class UrlController {
         throw new BadRequestError('the providen url is not a valid one');
 
       // Generate a new id from shortid
-      const shortenUrl = generate();
+      const shortenUrlId = generate();
 
-      if (await URLModel.findOne({ short: shortenUrl })) {
+      if (await URLModel.findOne({ short: shortenUrlId })) {
         throw new InternalServerError('The given id for the url already exits');
       }
       const date = Date.now();
 
-      await URLModel.create({
+      const result = await URLModel.create({
         originalUrl,
         date,
-        short: shortenUrl,
+        short: shortenUrlId,
       });
+
+      if (!result) {
+        throw new InternalServerError('while trying to create a new url');
+      }
+
+      const shotenUrl = formatShortUrl(req, API_PATH, shortenUrlId);
       const statusCode = HttpsStatusCode.CREATED;
       const message = 'Sucessfuly create a new url';
       res.status(statusCode).json({
         original: originalUrl,
-        shorten: shortenUrl,
+        shorten: shotenUrl,
         message,
         statusCode,
       });

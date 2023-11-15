@@ -13,6 +13,7 @@ export default function defineRoute(
     'routes',
     target.constructor,
   );
+
   routes.push({
     method,
     path: path,
