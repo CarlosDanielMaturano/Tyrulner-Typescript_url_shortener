@@ -20,13 +20,21 @@ const API_PATH = '/api';
 @Service()
 export class UrlController {
   @Get('/hello')
-  public async hello(_req: Request, res: Response): Promise<void> {
-    const statusCode = HttpsStatusCode.OK;
-    const message = 'Hello world';
-    res.status(statusCode).send({
-      statusCode,
-      message,
-    });
+  public async hello(
+    _req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const statusCode = HttpsStatusCode.OK;
+      const message = 'Hello world';
+      res.status(statusCode).send({
+        statusCode,
+        message,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
   @Get('/:short')
   public async getUrl(

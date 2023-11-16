@@ -95,3 +95,4 @@ Response
     [] Add a middleware to handle undefinied routes
     [] Improve the docs
     [] Cache the last urls created by the user
+    [] Improve the static page UI
