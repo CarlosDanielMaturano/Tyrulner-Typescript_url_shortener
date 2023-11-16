@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "tsnd --files --transpile-only --respawn  --clear --inspect=4321 --project tsconfig.json src/server.ts"
+}

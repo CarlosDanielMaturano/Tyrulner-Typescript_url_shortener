@@ -20,8 +20,6 @@ const createNewUrl = async (url) => {
   const data = await res.json();
   const { statusCode } = data;
   if (statusCode !== 200 && statusCode !== 201) {
-    console.log(statusCode);
-    console.log(data);
     handleError(new Error(data.message));
     return createNoteMessage(data);
   }
