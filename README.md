@@ -88,3 +88,10 @@ Response
             "message":"url not given"
 
         }
+
+## Todo
+
+    [] Add a feature to view the existing shorten urls
+    [] Add a middleware to handle undefinied routes
+    [] Improve the docs
+    [] Cache the last urls created by the user
