@@ -21,6 +21,7 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint'],
+  ignorePatterns: ['public'],
   rules: {
     indent: ['error', 2, { ignoredNodes: ['PropertyDefinition'] }],
     'linebreak-style': ['error', 'unix'],

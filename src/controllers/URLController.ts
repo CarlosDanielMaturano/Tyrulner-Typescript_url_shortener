@@ -14,6 +14,7 @@ import InternalServerError from '../errors/InternalServerError';
 import formatShortUrl from '../utils/formatShortUrl';
 
 const API_PATH = '/api';
+
 @Controller(API_PATH)
 // Service is required for use the typedi Container
 @Service()
@@ -69,8 +70,8 @@ export class UrlController {
       if (await URLModel.findOne({ short: shortenUrlId })) {
         throw new InternalServerError('The given id for the url already exits');
       }
-      const date = Date.now();
 
+      const date = Date.now();
       const result = await URLModel.create({
         originalUrl,
         date,
