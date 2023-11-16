@@ -25,6 +25,7 @@ body {
 
 .form-container .title {
   text-transform: uppercase;
+  text-align: center;
 }
 
 .form-container input {

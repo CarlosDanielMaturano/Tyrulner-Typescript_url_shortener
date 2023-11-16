@@ -6,7 +6,7 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "outDir": "js",
+    "outDir": "build",
     "noEmitOnError": true,
     "noImplicitAny": true,
     "removeComments": true,

@@ -5,7 +5,7 @@ import Container from 'typedi';
 
 function Controller(prefix: string): ClassDecorator {
   return (target: any) => {
-    console.log(`Defining metadata prefix: ${prefix} on target `);
+    console.log(`Defining metadata prefix: ${prefix} on target`);
     Reflect.defineMetadata('prefix', prefix, target);
     if (!Reflect.getMetadata('routes', target)) {
       Reflect.defineMetadata('routes', [], target);
