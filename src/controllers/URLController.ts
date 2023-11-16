@@ -21,7 +21,6 @@ const API_PATH = '/api';
 export class UrlController {
   @Get('/hello')
   public async hello(_req: Request, res: Response): Promise<void> {
-    console.log(_req.route.path);
     const statusCode = HttpsStatusCode.OK;
     const message = 'Hello world';
     res.status(statusCode).send({
