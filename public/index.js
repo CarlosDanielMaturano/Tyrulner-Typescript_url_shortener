@@ -17,7 +17,6 @@ button.addEventListener('click', async (e) => {
   const response = await createNewUrl(url);
   const shortUrl = response.shorten;
   addUrlToContainer(shortUrl, urlContainer);
-  console.log(response);
   createNoteMessage(response);
   urlInput.value = '';
 });

@@ -19,7 +19,7 @@ app.use(
   }),
 );
 app.use(express.json());
-app.use('/static', express.static(path.join(__dirname, 'public')));
+app.use('/static', express.static(path.join(__dirname, '../public')));
 
 app.use(AppRouter);
 app.use(errorHandler);
