@@ -1,12 +1,12 @@
 .prettierrc
 .env
 .TODO.*
-dist/
-node_modules/
-git/
+dist
+node_modules
+git
 yarn-error.log
 yarn.lock
 nodemon.json
 eslintrc.js
-build/
+build
 
