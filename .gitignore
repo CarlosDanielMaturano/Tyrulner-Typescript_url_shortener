@@ -1,6 +1,6 @@
 .prettierrc
 .env
-TODO.*
+TODO.txt
 dist
 node_modules
 git
