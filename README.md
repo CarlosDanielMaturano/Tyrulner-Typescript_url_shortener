@@ -96,3 +96,4 @@ Response
     [] Improve the docs
     [] Cache the last urls created by the user
     [] Improve the static page UI
+    [] Add an QR code to the shorten url
