@@ -68,7 +68,7 @@ Response
 
         App running on http://localhost:5000
 
-<p> Make a post request to <strong>/api/new<strong></p>
+<p> Make a post request to <strong>/api/new</strong> with the body containing one single parameter, the url</p>
 
         curl -X POST http://localhost:5000/api/new -H "Content-Type: application/json"  -d '{"url": "https://facebook.com"}'
 
@@ -89,11 +89,27 @@ Response
 
         }
 
+<p>You can verify the information of a existing url, by going into <strong>api/inspect/:urlid</strong></p>
+
+    curl http://localhost:5000/api/inspect/EHzfnRecY
+
+    {
+        "url":
+            {
+                "originalUrl":"https://github.com/CarlosDanielMaturano/Tyrulner-Typescript_url_shortener",
+                "short":"EHzfnRecY",
+                "date":"2023-11-16T22:54:10.371Z"
+            },
+        "statusCode":200
+    }
+
+<p>To see all existing urls, go to <strong>/api/all</strong></p>
+
 ## Todo
 
     [] Add a feature to view the existing shorten urls
-    [] Add a middleware to handle undefinied routes
+    [x] Add a middleware to handle undefinied routes
     [] Improve the docs
-    [] Cache the last urls created by the user
+    [] Cache the last urls created by the user, and make it acessable via front end
     [] Improve the static page UI
     [] Add an QR code to the shorten url

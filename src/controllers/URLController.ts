@@ -1,17 +1,17 @@
-import { NextFunction, Request, Response } from 'express';
 import Controller from '../decorators/Controller';
 import Get from '../decorators/routes/Get';
 import Post from '../decorators/routes/Post';
 import { Service } from 'typedi';
 import URLModel from '../database/schemas/URL';
-import { generate } from 'shortid';
 import UrlInterface from '../interfaces/UrlInterface';
 import UrlChecker from '../utils/urlChecker';
 import HttpsStatusCode from '../utils/HttpsStatusCode';
 import NotFoundError from '../errors/NotFoundError';
 import BadRequestError from '../errors/BadRequestError';
 import InternalServerError from '../errors/InternalServerError';
+import { NextFunction, Request, Response } from 'express';
 import formatShortUrl from '../utils/formatShortUrl';
+import { generate } from 'shortid';
 
 const API_PATH = '/api';
 
@@ -36,6 +36,23 @@ export class UrlController {
       next(err);
     }
   }
+  @Get('/all')
+  public async getAllUrls(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const allUrls = await URLModel.find({}, { _id: 0, __v: 0 });
+      const statusCode = HttpsStatusCode.OK;
+      res.status(statusCode).json({
+        urls: allUrls,
+        statusCode,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
   @Get('/:short')
   public async getUrl(
     req: Request,
@@ -48,15 +65,40 @@ export class UrlController {
         short,
       });
       if (!url) {
-        throw new NotFoundError(
-          'Could not find the url with the given shorten url',
-        );
+        throw new NotFoundError('Could not find the url with the given urlID');
       }
       res.redirect(url.originalUrl);
     } catch (err: unknown) {
       next(err);
     }
   }
+  @Get('/inspect/:short')
+  public async inspectUrl(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const short = <string>req.params['short'];
+      const url: UrlInterface = <UrlInterface>await URLModel.findOne(
+        {
+          short,
+        },
+        { _id: 0, __v: 0 },
+      );
+      if (!url) {
+        throw new NotFoundError('Could not find the url with the given urlID');
+      }
+      const statusCode = HttpsStatusCode.OK;
+      res.status(statusCode).json({
+        url,
+        statusCode,
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   @Post('/new')
   public async shortenUrl(
     req: Request,
@@ -68,7 +110,7 @@ export class UrlController {
 
       if (!originalUrl) throw next(new BadRequestError('url not given'));
 
-      if (!UrlChecker.checkUrl(originalUrl))
+      if (!UrlChecker.isValid(originalUrl))
         throw new BadRequestError('the providen url is not a valid one');
 
       // Generate a new id from shortid
