@@ -2,11 +2,12 @@
 
 ## A url shortener made with typescripts, mongodb and expressjs!
 
+[![Static Badge](https://img.shields.io/badge/License-MIT-green)](https://github.com/CarlosDanielMaturano/Tyrulner-Typescript_url_shortener/blob/main/LICENSE.txt)
+[![Static Badge](https://img.shields.io/badge/yarn-1.22.19-blue)]()
+
 This project is a simple url shortener, where it can take a big url, and convert into a shorten one.
 
 ## Getting started
-
-( optional ) Make a fork of this repo
 
 1.  Clone the repo
 
