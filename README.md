@@ -21,7 +21,7 @@ This project is a simple url shortener, where it can take a big url, and convert
    npm install
 ```
 
-3. Create a <strong>.env</strong> file and put the string to your mongoDB atlas
+3. Create a <strong>.env</strong> file and your mongoDB connection string
 
 ```
     DB_URI=mongodb+srv://myDatabaseUser:D1fficultP%40ssw0rd@mongodb0.example.com/?authSource=admin&replicaSet=myRepl
