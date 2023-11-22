@@ -104,6 +104,19 @@ Response
         "statusCode":200
     }
 
+<p>By providing the <strong>qrCode</strong>option in the request body, you'll get a DataUrl string, containing the related qrCode data</p>
+
+    {
+        "original": "https://www.google.com",
+        "shorten": "http://localhost:5000/api/uCk4HFbgM",
+        "message": "Sucessfuly create a new url",
+        "statusCode": 201,
+        "qrCodeBufData": "data:image/png;base64,\
+        iVBORw0KGgoAAAANSUhEUgAAAJQAAACUCAYAAAB1PADUAAAAAklEQVR4AewaftIAAATESURBVO3BQY4cSRIEQbVA/f/..."
+    }
+
+<p>For now, that string can only be aplied on a \<img\> tag, and it will display the qrcode</p>
+
 <p>To see all existing urls, go to <strong>/api/all</strong></p>
 
 ## Todo
