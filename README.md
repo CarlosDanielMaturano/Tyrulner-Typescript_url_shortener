@@ -122,8 +122,6 @@ Response
 ## Todo
 
     [] Add a feature to view the existing shorten urls
-    [x] Add a middleware to handle undefinied routes
     [] Improve the docs
-    [] Cache the last urls created by the user, and make it acessable via front end
+    [] Cache the last urls created by the user, and make it accesible via front end
     [] Improve the static page UI
-    [] Add an QR code to the shorten url
