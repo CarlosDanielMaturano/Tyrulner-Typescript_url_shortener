@@ -12,6 +12,7 @@ import InternalServerError from '../errors/InternalServerError';
 import { NextFunction, Request, Response } from 'express';
 import formatShortUrl from '../utils/formatShortUrl';
 import { generate } from 'shortid';
+import genQrDataBuffer from '../utils/genQrcode';
 
 const API_PATH = '/api';
 
@@ -38,7 +39,7 @@ export class UrlController {
   }
   @Get('/all')
   public async getAllUrls(
-    req: Request,
+    _req: Request,
     res: Response,
     next: NextFunction,
   ): Promise<void> {
@@ -106,7 +107,8 @@ export class UrlController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const originalUrl = <string>req.body.url;
+      const originalUrl = <string>req.body['url'];
+      const useQrCode = <boolean>req.body['qrCode'];
 
       if (!originalUrl) throw next(new BadRequestError('url not given'));
 
@@ -131,15 +133,34 @@ export class UrlController {
         throw new InternalServerError('while trying to create a new url');
       }
 
-      const shotenUrl = formatShortUrl(req, API_PATH, shortenUrlId);
+      const shortUrl = formatShortUrl(req, API_PATH, shortenUrlId);
       const statusCode = HttpsStatusCode.CREATED;
       const message = 'Sucessfuly create a new url';
-      res.status(statusCode).json({
+
+      interface jsonReturn {
+        original: string;
+        shortUrl: string;
+        message: string;
+        statusCode: number;
+        qrCodeBufData?: string;
+      }
+
+      const jsonReturnData: jsonReturn = {
         original: originalUrl,
-        shorten: shotenUrl,
+        shortUrl,
         message,
         statusCode,
-      });
+      };
+
+      if (useQrCode) {
+        const qrCodeBufData = await genQrDataBuffer(shortUrl);
+        if (!qrCodeBufData) {
+          throw new InternalServerError('Cant create a buffer fot the QRCode');
+        }
+        jsonReturnData.qrCodeBufData = qrCodeBufData;
+      }
+
+      res.status(statusCode).json(jsonReturnData);
     } catch (err: unknown) {
       next(err);
     }

@@ -4,7 +4,7 @@ export const addUrlToContainer = (url, urlContainer) => {
   `;
 };
 
-export const createNoteMessage = ({ message, statusCode }) => {
+export const createAdvice = ({ message, statusCode }) => {
   const messageContainer = document.getElementById('message-container');
   messageContainer.innerHTML = '';
   let className = 'alert-primary';
@@ -15,4 +15,8 @@ export const createNoteMessage = ({ message, statusCode }) => {
   messageContainer.innerHTML = `
     <h3 class="alert ${className}" role="alert">${message}</h3>
   `;
+};
+
+export const createQrCode = (bufData, imageContainer) => {
+  imageContainer.src = bufData;
 };

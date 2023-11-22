@@ -1,11 +1,15 @@
 import createNewUrl from './newUrl.js';
-import { addUrlToContainer, createNoteMessage } from './elementsManipulator.js';
+import {
+  addUrlToContainer,
+  createQrCode,
+  createAdvice,
+} from './elementsManipulator.js';
+import { handleError } from './newUrl.js';
 
 const button = document.getElementById('url-button');
-const origin = window.location.origin;
-const form = document.getElementById('form');
 const urlInput = document.getElementById('url-input');
 const urlContainer = document.getElementById('url-container');
+const qrCodeContainer = document.getElementById('qrcode-container');
 
 button.addEventListener('click', async (e) => {
   e.preventDefault();
@@ -14,9 +18,15 @@ button.addEventListener('click', async (e) => {
   if (!url) {
     return alert('Please, Do not leave blank fields');
   }
-  const response = await createNewUrl(url);
-  const shortUrl = response.shorten;
+  const data = await createNewUrl(url);
+  const { statusCode, shortUrl, qrCodeBufData } = data;
+  if (statusCode !== 200 && statusCode !== 201) {
+    handleError(new Error(data.message));
+    return createAdvice(data);
+  }
+
   addUrlToContainer(shortUrl, urlContainer);
-  createNoteMessage(response);
+  createQrCode(qrCodeBufData, qrCodeContainer);
+  createAdvice(data);
   urlInput.value = '';
 });

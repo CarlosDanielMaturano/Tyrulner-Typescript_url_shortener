@@ -1,6 +1,4 @@
-import { createNoteMessage } from './elementsManipulator.js';
-
-const handleError = (error) => {
+export const handleError = (error) => {
   console.log(error);
 };
 
@@ -15,14 +13,10 @@ const createNewUrl = async (url) => {
     },
     body: JSON.stringify({
       url,
+      qrCode: true,
     }),
   });
   const data = await res.json();
-  const { statusCode } = data;
-  if (statusCode !== 200 && statusCode !== 201) {
-    handleError(new Error(data.message));
-    return createNoteMessage(data);
-  }
   return data;
 };
 
